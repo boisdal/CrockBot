@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients } from '../../lib/test.js';
+import { getRecipesFromIngredients } from '../../lib/tools.js';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {

@@ -1,4 +1,4 @@
-import { getFoodItemArray } from '../lib/test.js';
+import { getFoodItemArray } from '../lib/tools.js';
 const once = false;
 const name = 'interactionCreate';
 
