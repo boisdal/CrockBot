@@ -49,10 +49,13 @@ const invoke = (interaction) => {
 	interaction.reply(message);
 };
 
+// Called by the interactionCreate event listener when the arguments are being fullfilled
 const autocomplete =  async (interaction) => {
     const focusedOption = interaction.options.getFocused(true);
-    let choices = getFoodItemArray()
-    let filtered = choices.filter(choice => choice.name.toLowerCase().includes(focusedOption.value));
+    const choices = getFoodItemArray()
+    const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(focusedOption.value))
+    const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(focusedOption.value) && !choice.name.toLowerCase().startsWith(focusedOption.value));
+    let filtered = starting.concat(matchNoStart)
     if (focusedOption.value == '') {filtered = choices}
     let options;
     if (filtered.length > 25) {
