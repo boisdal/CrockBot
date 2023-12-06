@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients } from '../../lib/tools.js';
-import { createEmbedForRecipe } from '../../lib/embeds.js';
+import { getRecipesFromIngredients } from '#lib/tools';
+import { createEmbedForRecipe } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
