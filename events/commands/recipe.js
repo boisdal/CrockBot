@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients } from '#lib/tools';
+import { getRecipesFromIngredients, getFoodItemArray } from '#lib/tools';
 import { createEmbedForRecipe } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -49,4 +49,20 @@ const invoke = (interaction) => {
 	interaction.reply(message);
 };
 
-export { create, invoke };
+const autocomplete =  async (interaction) => {
+    const focusedOption = interaction.options.getFocused(true);
+    let choices = getFoodItemArray()
+    let filtered = choices.filter(choice => choice.name.toLowerCase().includes(focusedOption.value));
+    if (focusedOption.value == '') {filtered = choices}
+    let options;
+    if (filtered.length > 25) {
+        options = filtered.slice(0, 25);
+    } else {
+        options = filtered;
+    }
+    await interaction.respond(
+		options,
+	);
+}
+
+export { create, invoke, autocomplete };

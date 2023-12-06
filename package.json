@@ -13,8 +13,7 @@
 	"imports": {
 		"#lib/*": "./lib/*.js", 
 		"#events/*": "./events/*",
-		"#commands/*": "./events/commands/*.js",
-		"#autocomplete/*": "./events/autocomplete/*.js"
+		"#commands/*": "./events/commands/*.js"
 	},
 	"type": "module"
 }
