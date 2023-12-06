@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients } from '../../lib/test.js';
+import { getRecipesFromIngredients } from '../../lib/tools.js';
+import { createEmbedForRecipe } from '../../lib/embeds.js';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
@@ -40,15 +41,12 @@ const invoke = (interaction) => {
 	const ing2 = interaction.options.getString('ing2');
 	const ing3 = interaction.options.getString('ing3');
 	const ing4 = interaction.options.getString('ing4');
+    let ingredientArray = [ing1, ing2, ing3, ing4];
 
-    let recipes = getRecipesFromIngredients([ing1, ing2, ing3, ing4])
+    let recipes = getRecipesFromIngredients(ingredientArray)
 
-	if (recipes !== null) interaction.reply({ content: `Result is ${recipes[2].name}!` });
-	else
-		interaction.reply({
-			content: 'Pong!',
-			ephemeral: true,
-		});
+    let message = createEmbedForRecipe(recipes, ingredientArray)
+	interaction.reply(message);
 };
 
 export { create, invoke };

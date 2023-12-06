@@ -27,5 +27,5 @@ for (let event of events) {
 		});
 }
 
-// Login with the environment data
+// Login with the environment data 
 client.login(process.env.BOT_TOKEN);
