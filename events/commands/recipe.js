@@ -11,7 +11,10 @@ const create = () => {
 			option.setName('name')
             .setDescription('Recipe name')
             .setRequired(true)
-            .setAutocomplete(true));
+            .setAutocomplete(true))
+        .addBooleanOption((option) =>
+            option.setName('private')
+            .setDescription('Keep the answer for yourself'))
 
 	return command.toJSON();
 };
@@ -19,28 +22,32 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (interaction) => {
 	const name = interaction.options.getString('name');
-    let recipe = getRecipeFromName(name)
-    let message = createEmbedForRecipe(recipe)
+    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let recipe = getRecipeFromName(name);
+    let message = createEmbedForRecipe(recipe, ephemeral);
 	interaction.reply(message);
 };
 
 // Called by the interactionCreate event listener when the arguments are being fullfilled
 const autocomplete =  async (interaction) => {
     const focusedOption = interaction.options.getFocused(true);
-    const choices = getRecipeArray()
-    const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(focusedOption.value))
-    const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(focusedOption.value) && !choice.name.toLowerCase().startsWith(focusedOption.value));
-    let filtered = starting.concat(matchNoStart)
-    if (focusedOption.value == '') {filtered = choices}
-    let options;
-    if (filtered.length > 25) {
-        options = filtered.slice(0, 25);
-    } else {
-        options = filtered;
+    if (focusedOption.name == 'name') {
+        const choices = getRecipeArray();
+        const input = focusedOption.value.toLowerCase();
+        const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(input));
+        const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(input) && !choice.name.toLowerCase().startsWith(input));
+        let filtered = starting.concat(matchNoStart);
+        if (focusedOption.value == '') {filtered = choices}
+        let options;
+        if (filtered.length > 25) {
+            options = filtered.slice(0, 25);
+        } else {
+            options = filtered;
+        }
+        await interaction.respond(
+            options,
+        );
     }
-    await interaction.respond(
-		options,
-	);
 }
 
 export { create, invoke, autocomplete };
