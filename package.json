@@ -11,6 +11,7 @@
 		"dotenv": "^16.3.1"
 	},
 	"imports": {
+		"#lib/*": "./lib/*.js", 
 		"#events/*": "./events/*",
 		"#commands/*": "./events/commands/*.js"
 	},
