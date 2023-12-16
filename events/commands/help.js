@@ -80,7 +80,7 @@ const create = () => {
 };
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
-const invoke = (interaction) => {
+const invoke = (bot, interaction) => {
 	const topic = interaction.options.getString('topic');
     const ephemeral = interaction.options.getBoolean('private') ?? false;
 
@@ -91,7 +91,7 @@ const invoke = (interaction) => {
 };
 
 // Called by the interactionCreate event listener when the arguments are being fullfilled
-const autocomplete =  async (interaction) => {
+const autocomplete =  async (bot, interaction) => {
     const focusedOption = interaction.options.getFocused(true);
     if (focusedOption.name != 'private') {
         const choices = helpTopicsAutocomplete;

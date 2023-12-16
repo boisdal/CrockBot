@@ -1,9 +1,16 @@
 import {} from 'dotenv/config';
 import fs from 'fs';
 import { Client, GatewayIntentBits } from 'discord.js';
+import { initFood, initUniqueFood, initRecipes } from '#lib/init';
 
 // Create a new Client with the Guilds intent
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+// Create a new Bot object and fill it
+let bot = {};
+initFood(bot, 'together');
+initUniqueFood(bot);
+initRecipes(bot, 'together');
 
 // Fetch all js files in ./events
 const events = fs
@@ -19,11 +26,11 @@ for (let event of events) {
 	// But first check if it's an event emitted once
 	if (eventFile.once)
 		client.once(eventFile.name, (...args) => {
-			eventFile.invoke(...args);
+			eventFile.invoke(bot, ...args);
 		});
 	else
 		client.on(eventFile.name, (...args) => {
-			eventFile.invoke(...args);
+			eventFile.invoke(bot, ...args);
 		});
 }
 

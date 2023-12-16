@@ -14,8 +14,8 @@ const create = () => {
 };
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
-const invoke = (interaction) => {
-	test()
+const invoke = (bot, interaction) => {
+	console.log(bot);
 	const user = interaction.options.getUser('user');
 
 	if (user !== null) interaction.reply({ content: `Hey ${user}!` });

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipeFromName, getRecipeArray } from '#lib/tools';
+import { getRecipeArray } from '#lib/tools';
 import { createEmbedForRecipe } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -20,16 +20,16 @@ const create = () => {
 };
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
-const invoke = (interaction) => {
+const invoke = (bot, interaction) => {
 	const name = interaction.options.getString('name');
     const ephemeral = interaction.options.getBoolean('private') ?? false;
-    let recipe = getRecipeFromName(name);
-    let message = createEmbedForRecipe(recipe, ephemeral);
+    let recipe = bot.recipes.byId(name);
+    let message = createEmbedForRecipe(bot, recipe, ephemeral);
 	interaction.reply(message);
 };
 
 // Called by the interactionCreate event listener when the arguments are being fullfilled
-const autocomplete =  async (interaction) => {
+const autocomplete =  async (bot, interaction) => {
     const focusedOption = interaction.options.getFocused(true);
     if (focusedOption.name == 'name') {
         const choices = getRecipeArray();
