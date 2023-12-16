@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipeArray } from '#lib/tools';
+import { getRecipeOptions } from '#lib/tools';
 import { createEmbedForRecipe } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -32,7 +32,7 @@ const invoke = (bot, interaction) => {
 const autocomplete =  async (bot, interaction) => {
     const focusedOption = interaction.options.getFocused(true);
     if (focusedOption.name == 'name') {
-        const choices = getRecipeArray();
+        const choices = getRecipeOptions(bot);
         const input = focusedOption.value.toLowerCase();
         const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(input));
         const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(input) && !choice.name.toLowerCase().startsWith(input));

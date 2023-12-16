@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getFoodFromTag } from '#lib/tools';
 import { createEmbedForTag } from '#lib/embeds';
 import { tagList } from '#lib/food';
 
@@ -26,7 +25,7 @@ const invoke = (bot, interaction) => {
 	const tagName = interaction.options.getString('tagname');
     const ephemeral = interaction.options.getBoolean('private') ?? false;
 
-    let foodItems = getFoodFromTag(tagName);
+    let foodItems = bot.food.filter(f => f[tagName]).map(f => {return `${f.name} (${f[tagName] === true ? 1 : f[tagName]})`});
 
     let message = createEmbedForTag(foodItems, tagName, ephemeral);
 	interaction.reply(message);

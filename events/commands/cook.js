@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients, getFoodItemArray } from '#lib/tools';
+import { getRecipesFromIngredients, getFoodOptions } from '#lib/tools';
 import { createEmbedForCook } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -47,9 +47,9 @@ const invoke = (bot, interaction) => {
     const ephemeral = interaction.options.getBoolean('private') ?? false;
     let ingredientArray = [ing1, ing2, ing3, ing4];
 
-    let recipes = getRecipesFromIngredients(ingredientArray);
+    let recipes = getRecipesFromIngredients(bot, ingredientArray);
 
-    let message = createEmbedForCook(recipes, ingredientArray, ephemeral);
+    let message = createEmbedForCook(bot, recipes, ingredientArray, ephemeral);
 	interaction.reply(message);
 };
 
@@ -57,7 +57,7 @@ const invoke = (bot, interaction) => {
 const autocomplete =  async (bot, interaction) => {
     const focusedOption = interaction.options.getFocused(true);
     if (focusedOption.name != 'private') {
-        const choices = getFoodItemArray();
+        const choices = getFoodOptions(bot);
         const input = focusedOption.value.toLowerCase();
         const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(input));
         const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(input) && !choice.name.toLowerCase().startsWith(input));
