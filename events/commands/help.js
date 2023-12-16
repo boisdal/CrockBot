@@ -85,6 +85,9 @@ const invoke = (bot, interaction) => {
     const ephemeral = interaction.options.getBoolean('private') ?? false;
 
     let topicAnswer = helpTopics[topic];
+    for (let section of topicAnswer.sections) {
+        section.value = section.value.replace(/ {2,}/gm,'');
+    }
 
     let message = createEmbedForHelp(topicAnswer, ephemeral);
 	interaction.reply(message);
