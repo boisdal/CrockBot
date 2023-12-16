@@ -22,7 +22,8 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (bot, interaction) => {
 	const name = interaction.options.getString('name');
-    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let ephemeral = interaction.options.getBoolean('private') ?? false;
+    if (interaction.channelId == '1182003255987929178') {ephemeral = true;}
     let recipe = bot.recipes.byId(name);
     let message = createEmbedForRecipe(bot, recipe, ephemeral);
 	interaction.reply(message);

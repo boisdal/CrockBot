@@ -82,7 +82,8 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (bot, interaction) => {
 	const topic = interaction.options.getString('topic');
-    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let ephemeral = interaction.options.getBoolean('private') ?? false;
+    if (interaction.channelId == '1182003255987929178') {ephemeral = true;}
 
     let topicAnswer = helpTopics[topic];
     for (let section of topicAnswer.sections) {

@@ -23,7 +23,8 @@ const create = () => {
 // Called by the interactionCreate event listener when the corresponding command is invoked
 const invoke = (bot, interaction) => {
 	const tagName = interaction.options.getString('tagname');
-    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let ephemeral = interaction.options.getBoolean('private') ?? false;
+    if (interaction.channelId == '1182003255987929178') {ephemeral = true;}
 
     let foodItems = bot.food.filter(f => f[tagName]).map(f => {return `${f.name} (${f[tagName] === true ? 1 : f[tagName]})`});
 

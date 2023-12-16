@@ -44,7 +44,8 @@ const invoke = (bot, interaction) => {
 	const ing2 = interaction.options.getString('ing2');
 	const ing3 = interaction.options.getString('ing3');
 	const ing4 = interaction.options.getString('ing4');
-    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let ephemeral = interaction.options.getBoolean('private') ?? false;
+    if (interaction.channelId == '1182003255987929178') {ephemeral = true;}
     let ingredientArray = [ing1, ing2, ing3, ing4];
 
     let recipes = getRecipesFromIngredients(bot, ingredientArray);
