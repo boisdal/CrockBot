@@ -49,8 +49,15 @@ const helpTopics = {
         'thumbnail': 'rot',
         'sections': [
             {
-                'name': 'To be Filled',
-                'value': `No idea what to write.`
+                'name': 'Base mechanic',
+                'value': `Most of the food items have a perishing time.
+                            The speed at which it goes down depends on it being in a fridge, on the ground and on the current season.`
+            },
+            {
+                'name': 'Perishing time',
+                'value': `At the moment the food item is created, its perish time is calculated.
+                            Its value is determined depending on the freshness of the ingredients used and the base perish time of the dish cooked.
+                            It's this base perish time that is shown in the recipe command.`
             }
         ]
     }
