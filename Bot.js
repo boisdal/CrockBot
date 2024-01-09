@@ -1,7 +1,7 @@
 import {} from 'dotenv/config';
 import fs from 'fs';
 import { Client, GatewayIntentBits } from 'discord.js';
-import { initFood, initUniqueFood, initRecipes } from '#lib/init';
+import { initFood, initUniqueFood, initRecipes, initConfig } from '#lib/init';
 
 // Create a new Client with the Guilds intent
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -11,6 +11,7 @@ let bot = {};
 initFood(bot, 'together');
 initUniqueFood(bot);
 initRecipes(bot, 'together');
+initConfig(bot);
 
 // Fetch all js files in ./events
 const events = fs
