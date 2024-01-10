@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ThreadAutoArchiveDuration } from 'discord.js';
+import { SlashCommandBuilder, ThreadAutoArchiveDuration, ChannelType } from 'discord.js';
 import { getRecipeOptions } from '#lib/tools';
 import { createEmbedForRecipe } from '#lib/embeds';
 
@@ -25,10 +25,16 @@ const invoke = (bot, interaction) => {
     let answer;
     if (Object.hasOwn(bot.config.favChannel.data, guildId)) {
         let forumId = bot.config.favChannel.data[guildId];
-        let forum = interaction.guild.channels.cache.get(forumId)
+        let channel = interaction.guild.channels.cache.get(forumId)
         let recipe = bot.recipes.byId(name);
         let message = createEmbedForRecipe(bot, recipe, ephemeral);
-        forum.threads.create({ name: recipe.name, message: message, autoArchiveDuration:ThreadAutoArchiveDuration.OneWeek});
+        if (channel.type == ChannelType.GuildForum) {
+            channel.threads.create({ name: recipe.name, message: message, autoArchiveDuration:ThreadAutoArchiveDuration.OneWeek});
+        } else {
+            channel.send(message).then((sentMsg) => {
+                sentMsg.pin()
+            });
+        }
         answer = 'The recipe has been added to the configured channel.'
     } else {
         answer = 'Please first configure a forum channel dedicated to your favorite recipes.';
