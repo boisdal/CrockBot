@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { getRecipesFromIngredients, getFoodItemArray } from '#lib/tools';
+import { getRecipesFromIngredients, getFoodOptions } from '#lib/tools';
 import { createEmbedForCook } from '#lib/embeds';
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
@@ -39,25 +39,26 @@ const create = () => {
 };
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
-const invoke = (interaction) => {
+const invoke = (bot, interaction) => {
 	const ing1 = interaction.options.getString('ing1');
 	const ing2 = interaction.options.getString('ing2');
 	const ing3 = interaction.options.getString('ing3');
 	const ing4 = interaction.options.getString('ing4');
-    const ephemeral = interaction.options.getBoolean('private') ?? false;
+    let ephemeral = interaction.options.getBoolean('private') ?? false;
+    if (interaction.channelId == '1182003255987929178') {ephemeral = true;}
     let ingredientArray = [ing1, ing2, ing3, ing4];
 
-    let recipes = getRecipesFromIngredients(ingredientArray);
+    let recipes = getRecipesFromIngredients(bot, ingredientArray);
 
-    let message = createEmbedForCook(recipes, ingredientArray, ephemeral);
+    let message = createEmbedForCook(bot, recipes, ingredientArray, ephemeral);
 	interaction.reply(message);
 };
 
 // Called by the interactionCreate event listener when the arguments are being fullfilled
-const autocomplete =  async (interaction) => {
+const autocomplete =  async (bot, interaction) => {
     const focusedOption = interaction.options.getFocused(true);
     if (focusedOption.name != 'private') {
-        const choices = getFoodItemArray();
+        const choices = getFoodOptions(bot);
         const input = focusedOption.value.toLowerCase();
         const starting = choices.filter(choice => choice.name.toLowerCase().startsWith(input));
         const matchNoStart = choices.filter(choice => choice.name.toLowerCase().includes(input) && !choice.name.toLowerCase().startsWith(input));

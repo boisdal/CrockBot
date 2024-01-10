@@ -3,7 +3,7 @@ import fs from 'fs';
 const once = true;
 const name = 'ready';
 
-async function invoke(client) {
+async function invoke(bot, client) {
 	const commands = fs
 		.readdirSync('./events/commands')
 		.filter((file) => file.endsWith('.js'))

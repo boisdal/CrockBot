@@ -1,10 +1,11 @@
 import { SlashCommandBuilder } from 'discord.js';
+import { test } from '#lib/tools'
 
 // Creates an Object in JSON with the data required by Discord's API to create a SlashCommand
 const create = () => {
 	const command = new SlashCommandBuilder()
 		.setName('ping')
-		.setDescription('Replys with Pong!')
+		.setDescription('Replies with Pong!')
 		.addUserOption((option) =>
 			option.setName('user').setDescription('Shall I greet a user?')
 		);
@@ -13,7 +14,7 @@ const create = () => {
 };
 
 // Called by the interactionCreate event listener when the corresponding command is invoked
-const invoke = (interaction) => {
+const invoke = (bot, interaction) => {
 	const user = interaction.options.getUser('user');
 
 	if (user !== null) interaction.reply({ content: `Hey ${user}!` });
